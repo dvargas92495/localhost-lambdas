@@ -11,7 +11,9 @@ import type { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
 
 const appPath = (p: string) => path.resolve(fs.realpathSync(process.cwd()), p);
 
-const run = async (): Promise<void> => {
+const run = async (props?: {
+  serverRef?: { current?: Server };
+}): Promise<void> => {
   const port = 3003;
   const functionNames = fs
     .readdirSync(appPath("lambdas"))
@@ -283,6 +285,10 @@ const run = async (): Promise<void> => {
         .join("\n")
     );
   });
+
+  if (props?.serverRef) {
+    props.serverRef.current = server;
+  }
 };
 
 if (process.env.NODE_ENV !== "test") {
