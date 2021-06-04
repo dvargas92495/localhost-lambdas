@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "target": "es2015",
+    "target": "es5",
     "allowJs": false,
-    "lib": [
-      "es2019",
-      "DOM"
-    ],
+    "lib": ["es2019", "dom", "dom.iterable"],
     "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
@@ -21,11 +18,6 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/__tests__/*"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "**/__tests__/*"]
 }
