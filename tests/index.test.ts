@@ -3,10 +3,19 @@ import fetch from "node-fetch";
 import { Server } from "@hapi/hapi";
 
 test("Runs Default", (done) => {
-  const serverRef: {current?: Server} = { current: undefined };
-  run({ serverRef });
+  const serverRef: { current?: Server } = { current: undefined };
+  const failRef = { current: false };
+  run({ serverRef }).catch((e) => {
+    failRef.current = true;
+    serverRef?.current?.stop?.();
+    expect(e).toBeNull();
+  });
   setTimeout(
     () => {
+      if (failRef.current) {
+        done();
+        return;
+      }
       fetch("http://localhost:3003/dev/test", {
         method: "POST",
         body: JSON.stringify({ foo: "bar" }),
