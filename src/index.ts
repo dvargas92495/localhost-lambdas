@@ -25,7 +25,7 @@ const run = async (props?: {
   const functionHandlers = Object.fromEntries(
     functionNames
       .map((functionName) => ({
-        path: appPath(`out/${functionName}.js`),
+        path: appPath(`out/${functionName}.js`).replace("\\", "/"),
         functionName,
       }))
       .filter(({ path }) => !!require.resolve(path))
