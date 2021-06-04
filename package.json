@@ -20,6 +20,9 @@
   "files": [
     "/dist"
   ],
+  "bin": {
+    "localhost-lambdas": "./dist/index.js"
+  },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.77",
     "@types/hapi__hapi": "^20.0.8",
