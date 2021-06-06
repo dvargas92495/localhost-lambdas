@@ -260,12 +260,12 @@ const run = async (props?: {
             .code(200)
             .header(
               "Access-Control-Allow-Headers",
-              request.headers["Access-Control-Request-Headers"]
+              request.headers["access-control-request-headers"]
             )
-            .header("Access-Control-Allow-Origin", request.headers["Origin"])
+            .header("Access-Control-Allow-Origin", request.headers["origin"])
             .header(
               "Access-Control-Allow-Methods",
-              request.headers["Access-Control-Request-Method"]
+              request.headers["access-control-request-method"]
             );
         },
         method: "OPTIONS",
