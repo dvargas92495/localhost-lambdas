@@ -66,18 +66,8 @@ const run = async (props?: {
           ?.includes?.("multipart/form-data")
           ? "binary"
           : "utf8";
-        const stringPayload = rawPayload && rawPayload.toString(encoding);
+        const payload = rawPayload ? rawPayload.toString(encoding) : "{}";
         console.log(`Received Request ${method} ${path}`);
-        const contentType = request.mime || "application/json";
-        const contentTypesThatRequirePayloadParsing = [
-          "application/json",
-          "application/vnd.api+json",
-        ];
-        const payload =
-          contentTypesThatRequirePayloadParsing.includes(contentType) &&
-          stringPayload
-            ? JSON.parse(stringPayload)
-            : stringPayload;
         const { url } = request.raw.req;
         const searchParams = new URL(
           url || "",
