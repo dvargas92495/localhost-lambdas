@@ -28,11 +28,10 @@ const run = async (props?: {
         path: appPath(`out/${functionName}.js`).replace(/\\/g, "/"),
         functionName,
       }))
-      .filter(({ path }) => !!require.resolve(path))
       .map(({ path, functionName }) => [
         functionName,
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        require(path).handler,
+        // hacky require to be ignored by webpack build
+        module[`require`].bind(module)(path).handler,
       ])
   ) as { [key: string]: APIGatewayProxyHandler };
 
