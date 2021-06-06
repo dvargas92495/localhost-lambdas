@@ -31,7 +31,7 @@ const run = async (props?: {
       .map(({ path, functionName }) => [
         functionName,
         // hacky require to be ignored by webpack build
-        module[`require`].bind(module)(path).handler,
+        eval(`require`)(path).handler,
       ])
   ) as { [key: string]: APIGatewayProxyHandler };
 
