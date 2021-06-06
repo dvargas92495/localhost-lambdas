@@ -41,6 +41,7 @@ const run = async (props?: {
   functionNames.forEach((functionName) => {
     const [path, methodLower] = functionName.split("_");
     const method = methodLower.toUpperCase();
+    const routePath = `/dev/${path}`;
     server.route({
       async handler(request, h) {
         const handler = functionHandlers[functionName];
@@ -245,9 +246,35 @@ const run = async (props?: {
         tags: ["api"],
         timeout: { socket: false },
       },
-      path: `/dev/${path}`,
+      path: routePath,
     });
   });
+
+  // CORS OPTIONS
+  Array.from(new Set(functionNames.map((f) => f.split("_")[0]))).forEach(
+    (path) =>
+      server.route({
+        handler(_, h) {
+          return h
+            .response()
+            .code(200)
+            .header(
+              "Access-Control-Allow-Headers",
+              "'Authorization, Content-Type'"
+            )
+            .header("Access-Control-Allow-Origin", "'*'")
+            .header(
+              "Access-Control-Allow-Methods",
+              "'GET,DELETE,OPTIONS,POST,PUT'"
+            );
+        },
+        method: "OPTIONS",
+        options: {
+          tags: ["api"],
+        },
+        path: `/dev/${path}`,
+      })
+  );
 
   server.route({
     handler(request, h) {
