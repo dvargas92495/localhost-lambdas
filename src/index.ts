@@ -254,18 +254,18 @@ const run = async (props?: {
   Array.from(new Set(functionNames.map((f) => f.split("_")[0]))).forEach(
     (path) =>
       server.route({
-        handler(_, h) {
+        handler(request, h) {
           return h
             .response()
             .code(200)
             .header(
               "Access-Control-Allow-Headers",
-              "'Authorization, Content-Type'"
+              request.headers["Access-Control-Request-Headers"]
             )
-            .header("Access-Control-Allow-Origin", "'*'")
+            .header("Access-Control-Allow-Origin", request.headers["Origin"])
             .header(
               "Access-Control-Allow-Methods",
-              "'GET,DELETE,OPTIONS,POST,PUT'"
+              request.headers["Access-Control-Request-Method"]
             );
         },
         method: "OPTIONS",
