@@ -69,17 +69,16 @@ const run = async (props?: {
         const payload = rawPayload ? rawPayload.toString(encoding) : "{}";
         console.log(`Received Request ${method} ${path}`);
         const { url } = request.raw.req;
-        const searchParams = new URL(
-          url || "",
-          "http://example.com"
-        ).searchParams.entries();
+        const searchParams = Array.from(
+          new URL(url || "", "http://example.com").searchParams.entries()
+        );
         const event = {
           body: payload,
           headers: Object.fromEntries(_headers.entries()),
           httpMethod: method,
           isBase64Encoded: false, // TODO hook up
           multiValueHeaders: _headers.raw(),
-          multiValueQueryStringParameters: Array.from(searchParams).reduce(
+          multiValueQueryStringParameters: searchParams.reduce(
             (prev, [k, v]) => {
               if (prev[k]) {
                 prev[k].push(v);
