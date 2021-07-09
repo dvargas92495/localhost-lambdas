@@ -39,7 +39,7 @@ const run = async (props?: {
   // Consider registering dotenv
 
   functionNames.forEach((functionName) => {
-    const [path, methodLower] = functionName.split("_");
+    const [path, methodLower = "post"] = functionName.split("_");
     const method = methodLower.toUpperCase();
     const routePath = `/dev/${path}`;
     server.route({
