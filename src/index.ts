@@ -16,8 +16,9 @@ const run = async (props?: {
 }): Promise<void> => {
   const port = 3003;
   const functionNames = fs
-    .readdirSync(appPath("lambdas"))
-    .map((f) => f.replace(/\.[t|j]s$/, ""));
+    .readdirSync(appPath("lambdas"), { withFileTypes: true })
+    .filter((f) => f.isFile())
+    .map((f) => f.name.replace(/\.[t|j]s$/, ""));
   if (functionNames.length === 0) {
     console.error("No functions found");
     process.exit(1);
