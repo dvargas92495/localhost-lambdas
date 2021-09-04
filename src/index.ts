@@ -196,7 +196,9 @@ const run = async (props?: {
                 new Date(),
                 executionTimeStarted
               );
-              console.log(`Executed in ${executionTime}ms`);
+              console.log(
+                `Executed ${method} ${functionName} in ${executionTime}ms`
+              );
               return result;
             })
             .then((result) => {
@@ -293,7 +295,9 @@ const run = async (props?: {
                 new Date(),
                 executionTimeStarted
               );
-              console.log(`Executed in ${executionTime}ms`);
+              console.log(
+                `Executed async ${functionName} in ${executionTime}ms`
+              );
             })
             .catch((error: Error) => {
               const message = error.message || error.toString();
