@@ -13,8 +13,9 @@ const appPath = (p: string) => path.resolve(fs.realpathSync(process.cwd()), p);
 
 const run = async (props?: {
   serverRef?: { current?: Server };
+  port?: string;
 }): Promise<void> => {
-  const port = 3003;
+  const port = Number(props?.port) || 3003;
   const functionNames = fs
     .readdirSync(appPath("lambdas"), { withFileTypes: true })
     .filter((f) => f.isFile())
@@ -308,7 +309,7 @@ const run = async (props?: {
 };
 
 if (process.env.NODE_ENV !== "test") {
-  run().catch((err) => {
+  run({port: process.env.argv[2]}).catch((err) => {
     console.error(err);
     process.exit(1);
   });
