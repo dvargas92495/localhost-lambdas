@@ -309,7 +309,7 @@ const run = async (props?: {
 };
 
 if (process.env.NODE_ENV !== "test") {
-  run({port: process.env.argv[2]}).catch((err) => {
+  run({ port: process.env.argv[2] }).catch((err) => {
     console.error(err);
     process.exit(1);
   });
