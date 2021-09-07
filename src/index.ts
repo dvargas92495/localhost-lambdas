@@ -344,7 +344,7 @@ const run = async (props?: {
           .header("Access-Control-Allow-Origin", request.headers["origin"])
           .header(
             "Access-Control-Allow-Methods",
-            request.headers["access-control-request-methods"]
+            request.headers["access-control-request-method"]
           );
       },
       method: "OPTIONS",
