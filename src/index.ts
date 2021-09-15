@@ -49,6 +49,7 @@ const run = async (props?: {
   serverRef?: { current?: Server };
   port?: string;
 }): Promise<void> => {
+  process.env.NODE_ENV = 'development';
   const port = Number(props?.port) || 3003;
   const functionNames = fs
     .readdirSync(appPath("lambdas"), { withFileTypes: true })
