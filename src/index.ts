@@ -393,7 +393,10 @@ const run = async (props?: {
           .map((route) => `    ${route.method.toUpperCase()} - ${route.path}`)
           .join("\n")
       );
-      return ngrok.connect(port);
+      return ngrok.connect({
+        addr: port,
+        subdomain: path.basename(process.cwd()),
+      });
     })
     .then((url) => {
       console.log("Started local ngrok tunneling:");
