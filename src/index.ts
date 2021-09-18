@@ -12,7 +12,7 @@ import type {
   APIGatewayProxyResult,
   Handler,
 } from "aws-lambda";
-import ngrok from 'ngrok';
+import ngrok from "ngrok";
 
 const appPath = (p: string) => path.resolve(fs.realpathSync(process.cwd()), p);
 
@@ -381,21 +381,24 @@ const run = async (props?: {
     path: "/{p*}",
   });
 
-  server.start().then(() => {
-    console.log(`Listening on https://localhost:${port}. Functions:`);
-    console.log(
-      server
-        .table()
-        .filter((route) => route.path !== "/{p*}")
-        .sort((a, b) => (a.path <= b.path ? -1 : 1))
-        .map((route) => `    ${route.method.toUpperCase()} - ${route.path}`)
-        .join("\n")
-    );
-    return ngrok.connect(port);
-  }).then((url) => {
-    console.log('Started local ngrok tunneling:')
-    console.log(url);
-  });
+  server
+    .start()
+    .then(() => {
+      console.log(`Listening on https://localhost:${port}. Functions:`);
+      console.log(
+        server
+          .table()
+          .filter((route) => route.path !== "/{p*}")
+          .sort((a, b) => (a.path <= b.path ? -1 : 1))
+          .map((route) => `    ${route.method.toUpperCase()} - ${route.path}`)
+          .join("\n")
+      );
+      return ngrok.connect(port);
+    })
+    .then((url) => {
+      console.log("Started local ngrok tunneling:");
+      console.log(url);
+    });
 
   if (props?.serverRef) {
     props.serverRef.current = server;
