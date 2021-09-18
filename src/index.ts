@@ -12,6 +12,7 @@ import type {
   APIGatewayProxyResult,
   Handler,
 } from "aws-lambda";
+import ngrok from 'ngrok';
 
 const appPath = (p: string) => path.resolve(fs.realpathSync(process.cwd()), p);
 
@@ -390,6 +391,10 @@ const run = async (props?: {
         .map((route) => `    ${route.method.toUpperCase()} - ${route.path}`)
         .join("\n")
     );
+    return ngrok.connect(port);
+  }).then((url) => {
+    console.log('Started local ngrok tunneling:')
+    console.log(url);
   });
 
   if (props?.serverRef) {
