@@ -47,7 +47,7 @@ const generateContext = ({
 };
 
 const run = async (props?: {
-  serverRef?: { current?: Server };
+  disconnectRef?: { current?: () => void };
   port?: string;
 }): Promise<void> => {
   process.env.NODE_ENV = "development";
@@ -381,7 +381,7 @@ const run = async (props?: {
     path: "/{p*}",
   });
 
-  server
+  return server
     .start()
     .then(() => {
       console.log(`Listening on https://localhost:${port}. Functions:`);
@@ -398,11 +398,13 @@ const run = async (props?: {
     .then((url) => {
       console.log("Started local ngrok tunneling:");
       console.log(url);
+      if (props?.disconnectRef) {
+        props.disconnectRef.current = () => {
+          server.stop();
+          ngrok.kill();
+        };
+      }
     });
-
-  if (props?.serverRef) {
-    props.serverRef.current = server;
-  }
 };
 
 if (process.env.NODE_ENV !== "test") {

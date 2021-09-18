@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prebuild": "cross-env NODE_ENV=test npm t",
-    "build": "ncc build src/index.ts -o dist",
+    "build": "esbuild src/index.ts --outfile=dist/index.js --bundle --platform=node --external:ngrok",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint . --ext .ts",
     "prepublishOnly": "npm run build",
@@ -30,8 +30,8 @@
     "@types/node-fetch": "^2.5.10",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
-    "@vercel/ncc": "^0.28.6",
     "cross-env": "^7.0.3",
+    "esbuild": "^0.12.28",
     "eslint": "^7.27.0",
     "jest": "^27.0.4",
     "prettier": "^2.3.0",
