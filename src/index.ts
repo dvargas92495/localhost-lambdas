@@ -49,6 +49,7 @@ const generateContext = ({
 const run = async (props?: {
   disconnectRef?: { current?: () => void };
   port?: string;
+  tunnel?: boolean;
 }): Promise<void> => {
   process.env.NODE_ENV = "development";
   const port = Number(props?.port) || 3003;
@@ -393,25 +394,36 @@ const run = async (props?: {
           .map((route) => `    ${route.method.toUpperCase()} - ${route.path}`)
           .join("\n")
       );
-      return ngrok.connect({
-        addr: port,
-        subdomain: path.basename(process.cwd()),
-      });
+      if (props?.tunnel) {
+        return ngrok
+          .connect({
+            addr: port,
+            subdomain: path.basename(process.cwd()),
+          })
+          .then((url) => {
+            console.log("Started local ngrok tunneling:");
+            console.log(url);
+          });
+      }
+      return Promise.resolve();
     })
-    .then((url) => {
-      console.log("Started local ngrok tunneling:");
-      console.log(url);
+    .then(() => {
       if (props?.disconnectRef) {
         props.disconnectRef.current = () => {
           server.stop();
-          ngrok.kill();
+          if (props?.tunnel) {
+            ngrok.kill();
+          }
         };
       }
     });
 };
 
 if (process.env.NODE_ENV !== "test") {
-  run({ port: process.argv[2] }).catch((err) => {
+  const [, , ...args] = process.argv;
+  const port = args.find((_, i, all) => all[i - 1] === "--port");
+  const tunnel = args.some((a) => a === "--tunnel");
+  run({ port, tunnel }).catch((err) => {
     console.error(err);
     process.exit(1);
   });
