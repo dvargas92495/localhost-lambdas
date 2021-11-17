@@ -1,7 +1,7 @@
 {
   "name": "localhost-lambdas",
   "description": "Description for localhost-lambdas",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
