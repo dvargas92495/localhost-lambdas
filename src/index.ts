@@ -49,7 +49,7 @@ const generateContext = ({
 const run = async (props?: {
   disconnectRef?: { current?: () => void };
   port?: string;
-  tunnel?: boolean;
+  tunnel?: boolean | string;
 }): Promise<void> => {
   process.env.NODE_ENV = "development";
   const port = Number(props?.port) || 3003;
@@ -398,7 +398,10 @@ const run = async (props?: {
         return ngrok
           .connect({
             addr: port,
-            subdomain: path.basename(process.cwd()),
+            subdomain:
+              typeof props.tunnel === "string"
+                ? props.tunnel
+                : path.basename(process.cwd()),
           })
           .then((url) => {
             console.log("Started local ngrok tunneling:");
