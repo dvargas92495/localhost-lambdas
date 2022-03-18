@@ -46,12 +46,14 @@ const generateContext = ({
   };
 };
 
-const run = async (props: {
-  disconnectRef?: { current?: () => void };
-  port?: string;
-  tunnel?: boolean | string;
-  root?: string;
-} = {}): Promise<void> => {
+const run = async (
+  props: {
+    disconnectRef?: { current?: () => void };
+    port?: string;
+    tunnel?: boolean | string;
+    root?: string;
+  } = {}
+): Promise<void> => {
   process.env.NODE_ENV = "development";
   const port = Number(props.port) || 3003;
   const functionNames = fs
