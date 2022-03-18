@@ -429,9 +429,11 @@ if (process.env.NODE_ENV !== "test") {
   const [, , ...args] = process.argv;
   const port = args.find((_, i, all) => all[i - 1] === "--port");
   const tunnelIndex = args.findIndex((a) => a === "--tunnel");
+  const root = args.find((_, i, all) => all[i - 1] === "--root");
   run({
     port,
     tunnel: tunnelIndex >= 0 && (args[tunnelIndex + 1] || true),
+    root
   }).catch((err) => {
     console.error(err);
     process.exit(1);
