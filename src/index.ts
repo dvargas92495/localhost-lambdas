@@ -433,7 +433,7 @@ if (process.env.NODE_ENV !== "test") {
   run({
     port,
     tunnel: tunnelIndex >= 0 && (args[tunnelIndex + 1] || true),
-    root
+    root,
   }).catch((err) => {
     console.error(err);
     process.exit(1);
