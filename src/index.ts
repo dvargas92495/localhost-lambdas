@@ -46,15 +46,16 @@ const generateContext = ({
   };
 };
 
-const run = async (props?: {
+const run = async (props: {
   disconnectRef?: { current?: () => void };
   port?: string;
   tunnel?: boolean | string;
-}): Promise<void> => {
+  root?: string;
+} = {}): Promise<void> => {
   process.env.NODE_ENV = "development";
-  const port = Number(props?.port) || 3003;
+  const port = Number(props.port) || 3003;
   const functionNames = fs
-    .readdirSync(appPath("lambdas"), { withFileTypes: true })
+    .readdirSync(appPath(props.root || "lambdas"), { withFileTypes: true })
     .filter((f) => f.isFile())
     .map((f) => f.name.replace(/\.[t|j]s$/, ""));
   if (functionNames.length === 0) {
