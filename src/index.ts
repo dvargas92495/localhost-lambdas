@@ -77,7 +77,7 @@ const run = async (
       ])
   ) as { [key: string]: APIGatewayProxyHandler | Handler };
 
-  const server = new Server({ port });
+  const server = new Server({ port, state: { strictHeader: false } });
   // Consider registering dotenv
 
   functionNames.forEach((functionName) => {
@@ -263,7 +263,9 @@ const run = async (
             failAction: "error",
             parse: true,
           },
-          cors: true,
+          cors: {
+            credentials: true,
+          },
           tags: ["api"],
           timeout: { socket: false },
         },
