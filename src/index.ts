@@ -351,7 +351,8 @@ const run = async (
           .header(
             "Access-Control-Allow-Methods",
             request.headers["access-control-request-method"]
-          );
+          )
+          .header("Access-Control-Allow-Credentials", "true");
       },
       method: "OPTIONS",
       options: {
